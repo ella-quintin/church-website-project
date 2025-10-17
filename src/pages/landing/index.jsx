@@ -1,5 +1,8 @@
 import Navbar from "../../components/navbar"
 import hero from "../../assets/images/hero.jpg"
+import discipleship from "../../assets/images/discipleship.jpg"
+import prayer from "../../assets/images/prayer.jpg"
+import training from "../../assets/images/training.jpg"
 import { motion } from "framer-motion";
 
 const events = [
@@ -7,8 +10,7 @@ const events = [
         title: "Annual Worship & Word Conference",
         date: "December 8–10, 2025",
         location: "Morning Dew HQ, Mataheko, Accra",
-        image:
-            "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=1600&q=80",
+        image: prayer,
         description:
             "Join us for three powerful days of worship, impartation, and the Word. Experience revival and renewal in the presence of God.",
     },
@@ -16,8 +18,7 @@ const events = [
         title: "Youth Empowerment Summit",
         date: "November 16, 2025",
         location: "Kasoa Assembly Hall",
-        image:
-            "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
+        image: discipleship,
         description:
             "A dynamic one-day program equipping youth with tools for leadership, spiritual growth, and personal development.",
     },
@@ -25,8 +26,7 @@ const events = [
         title: "Christmas Outreach",
         date: "December 23, 2025",
         location: "Dansoman & Bortianor Communities",
-        image:
-            "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1600&q=80",
+        image: training,
         description:
             "Join the I Care Ministry as we reach out with love — food distribution, prayers, and sharing the message of hope in Christ.",
     },
@@ -288,8 +288,7 @@ const Landing = () => {
                             Upcoming Events
                         </h2>
                         <p className="text-gray-600 text-lg">
-                            Stay connected and be part of what God is doing through Morning Dew
-                            Ministry.
+                            Overview of upcoming activities across all branches
                         </p>
                     </motion.div>
 
@@ -328,7 +327,7 @@ const Landing = () => {
                                         </p>
                                     </div>
                                     <button className="mt-4 bg-[#04164B] text-white px-4 py-2 text-sm font-medium rounded-full hover:bg-red-600 hover:text-white transition-all self-start">
-                                        Learn More
+                                        View Details
                                     </button>
                                 </div>
                             </motion.div>
