@@ -53,7 +53,7 @@ const Navbar = () => {
 
     return (
         <nav
-            className={`bg-white fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-white backdrop-blur-md shadow-md" : ""
+            className={`bg-white fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-[#04164B] shadow-md" : ""
                 }`}
         >
             <div className="container mx-auto flex items-center justify-between px-4 py-3">
@@ -256,76 +256,164 @@ const Navbar = () => {
             {/* Mobile Slide-In Menu */}
             <div
                 ref={mobileMenuRef}
-                className={`fixed top-0 right-0 h-full w-64 bg-[#3B4293] text-white transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"
-                    } transition-transform duration-300 ease-in-out md:hidden z-40`}
+                className={`fixed inset-0 z-50 flex justify-end md:hidden transition-transform duration-300 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+                    }`}
             >
-                <div className="pt-16 p-6 space-y-6">
-                    {[
-                        { to: "/", label: "HOME" },
-                        { to: "/about-us", label: "ABOUT US" },
-                        { to: "/missions", label: "MINISTRIES & DEPARTMENTS" },
-                    ].map((link) => (
-                        <Link
-                            key={link.to}
-                            to={link.to}
-                            onClick={() => setIsMenuOpen(false)}
-                            className={`block font-medium ${isActive(link.to) ? "text-gray-300" : "text-white"
-                                } hover:text-yellow-300`}
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
+                {/* Overlay background */}
+                <div
+                    className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                    onClick={() => setIsMenuOpen(false)}
+                ></div>
 
-                    <button
-                        onClick={handleWhatWeDoClick}
-                        className="block font-medium text-white hover:text-yellow-300"
-                    >
-                        ASSEMBLIES & FELLOWSHIPS
-                    </button>
-
-                    {/* Mobile Dropdown */}
-                    <div>
+                {/* Menu Panel */}
+                <div className="relative w-72 max-w-[80%] h-full bg-[#04164B] text-white shadow-2xl p-6 overflow-y-auto">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-lg font-bold tracking-wide">Menu</h2>
                         <button
-                            onClick={() => setIsDropdownOpen((prev) => !prev)}
-                            className="flex items-center justify-between w-full text-left font-medium text-white hover:text-yellow-300"
+                            onClick={() => setIsMenuOpen(false)}
+                            className="p-2 hover:bg-white/10 rounded-full transition"
                         >
-                            GENERAL UPDATES
-                            <ChevronDown
-                                size={18}
-                                className={`transition-transform ${isDropdownOpen ? "rotate-180" : ""
-                                    }`}
-                            />
+                            <X size={24} />
                         </button>
-
-                        {isDropdownOpen && (
-                            <div className="mt-2 pl-4 space-y-2">
-                                {[
-                                    { to: "/activities-events", label: "Activities & Events" },
-                                    { to: "/reports-resources", label: "Reports & Resources" },
-                                    { to: "/news-updates", label: "News & Updates" },
-                                ].map((item) => (
-                                    <Link
-                                        key={item.to}
-                                        to={item.to}
-                                        onClick={() => setIsMenuOpen(false)}
-                                        className="block text-sm text-gray-200 hover:text-yellow-300"
-                                    >
-                                        {item.label}
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
                     </div>
 
-                    <Link
-                        to="/contact-us"
-                        onClick={() => setIsMenuOpen(false)}
-                        className="block bg-yellow-500 text-white px-5 py-2 font-medium rounded-3xl hover:bg-yellow-400 transition duration-300"
-                    >
-                        CONTACT US
-                    </Link>
+                    {/* Navigation Links */}
+                    <nav className="space-y-5">
+                        {[
+                            { to: "/", label: "HOME" },
+                            { to: "/about-us", label: "ABOUT US" },
+                            { to: "/missions", label: "MINISTRIES & DEPARTMENTS" },
+                        ].map((link) => (
+                            <Link
+                                key={link.to}
+                                to={link.to}
+                                onClick={() => setIsMenuOpen(false)}
+                                className={`block text-lg font-medium tracking-wide ${isActive(link.to)
+                                        ? "text-white"
+                                        : "text-gray-100 hover:text-white"
+                                    } transition`}
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+
+                        {/* Assemblies & Fellowships Dropdown */}
+                        <div>
+                            <button
+                                onClick={() =>
+                                    setIsDropdownOpen((prev) =>
+                                        prev === "assemblies" ? null : "assemblies"
+                                    )
+                                }
+                                className="flex items-center justify-between w-full text-left font-medium text-gray-100 hover:text-yellow-400 transition"
+                            >
+                                ASSEMBLIES & FELLOWSHIPS
+                                <ChevronDown
+                                    size={18}
+                                    className={`transition-transform ${isDropdownOpen === "assemblies" ? "rotate-180 text-gray-50" : ""
+                                        }`}
+                                />
+                            </button>
+
+                            {isDropdownOpen === "assemblies" && (
+                                <div className="mt-3 pl-4 space-y-3 border-l border-white/20">
+                                    <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
+                                        Assemblies
+                                    </h3>
+                                    {[
+                                        { label: "Akweley Assembly", to: "/assemblies/akweley" },
+                                        { label: "Kasoa Assembly", to: "/assemblies/kasoa" },
+                                        { label: "Nkawkaw Assembly", to: "/assemblies/nkawkaw" },
+                                        { label: "Oda Assembly", to: "/assemblies/oda" },
+                                        { label: "Sunyani / Berekum Assemblies", to: "/assemblies/sunyani-berekum" },
+                                        { label: "Swedru Assembly", to: "/assemblies/swedru" },
+                                    ].map((item) => (
+                                        <Link
+                                            key={item.to}
+                                            to={item.to}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="block text-sm text-gray-300 hover:text-red-600 transition"
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ))}
+
+                                    <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mt-4">
+                                        Fellowships
+                                    </h3>
+                                    {[
+                                        { label: "Bortianor Fellowship", to: "/fellowships/bortianor" },
+                                        { label: "Dansoman Fellowship", to: "/fellowships/dansoman" },
+                                        { label: "Haatso Fellowship", to: "/fellowships/haatso" },
+                                        { label: "Odorkor Official Town Fellowship", to: "/fellowships/odorkor" },
+                                        { label: "Ofaakor Fellowship", to: "/fellowships/ofaakor" },
+                                    ].map((item) => (
+                                        <Link
+                                            key={item.to}
+                                            to={item.to}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="block text-sm text-gray-300 hover:text-red-600 transition"
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* General Updates Dropdown */}
+                        <div>
+                            <button
+                                onClick={() =>
+                                    setIsDropdownOpen((prev) =>
+                                        prev === "updates" ? null : "updates"
+                                    )
+                                }
+                                className="flex items-center justify-between w-full text-left font-medium text-gray-100 hover:text-gray-50 transition"
+                            >
+                                GENERAL UPDATES
+                                <ChevronDown
+                                    size={18}
+                                    className={`transition-transform ${isDropdownOpen === "updates" ? "rotate-180 text-gray-50" : ""
+                                        }`}
+                                />
+                            </button>
+
+                            {isDropdownOpen === "updates" && (
+                                <div className="mt-3 pl-4 space-y-3 border-l border-white/20">
+                                    {[
+                                        { to: "/activities-events", label: "Activities & Events" },
+                                        { to: "/reports-resources", label: "Reports & Resources" },
+                                        { to: "/news-updates", label: "News & Updates" },
+                                    ].map((item) => (
+                                        <Link
+                                            key={item.to}
+                                            to={item.to}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="block text-sm text-gray-300 hover:text-gray-50 transition"
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Contact Button */}
+                        <div className="pt-6">
+                            <Link
+                                to="/contact-us"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="block text-center bg-red-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-700 transition shadow-md"
+                            >
+                                CONTACT US
+                            </Link>
+                        </div>
+                    </nav>
                 </div>
             </div>
+
         </nav>
     );
 };
