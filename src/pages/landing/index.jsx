@@ -57,7 +57,7 @@ const Landing = () => {
                             transition={{ duration: 1 }}
                             className="text-5xl md:text-6xl font-extrabold mb-4 tracking-wide"
                         >
-                            Morning Dew Ministry
+                            Morning Dew Ministries
                         </motion.h1>
 
 
@@ -73,8 +73,15 @@ const Landing = () => {
                         viewport={{ once: true }}
                         className="max-w-5xl mx-auto text-center"
                     >
+                        
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#04164B] leading-tight mb-5">
-                            History and Vision of the Church
+                            Our Vision
+                        </h2>
+                        <p className="text-lg italic leading-relaxed text-gray-600 mb-6">
+                            Gather my people, teach them, create an army and present a quality Church.
+                        </p>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#04164B] leading-tight mb-5">
+                            History of the Church
                         </h2>
 
                         <h2 className="text-xs sm:text-lg  font-bold tracking-wider text-red-600 mb-3">
@@ -337,7 +344,7 @@ const Landing = () => {
 
                 {/* FOOTER */}
                 <footer className="bg-gray-900 text-gray-400 text-center py-6 text-sm">
-                    © {new Date().getFullYear()} Morning Dew Ministry. All rights reserved.
+                    © {new Date().getFullYear()} Morning Dew Ministries. All rights reserved.
                 </footer>
             </main>
         </>
