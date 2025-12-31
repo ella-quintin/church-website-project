@@ -4,35 +4,85 @@ import discipleship from "../../assets/images/discipleship.jpg"
 import prayer from "../../assets/images/prayer.jpg"
 import training from "../../assets/images/training.jpg"
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { sanityClient } from "../../lib/sanity";
 
-const events = [
-    {
-        title: "Annual Worship & Word Conference",
-        date: "December 8–10, 2025",
-        location: "Morning Dew HQ, Mataheko, Accra",
-        image: prayer,
-        description:
-            "Join us for three powerful days of worship, impartation, and the Word. Experience revival and renewal in the presence of God.",
-    },
-    {
-        title: "Youth Empowerment Summit",
-        date: "November 16, 2025",
-        location: "Kasoa Assembly Hall",
-        image: discipleship,
-        description:
-            "A dynamic one-day program equipping youth with tools for leadership, spiritual growth, and personal development.",
-    },
-    {
-        title: "Christmas Outreach",
-        date: "December 23, 2025",
-        location: "Dansoman & Bortianor Communities",
-        image: training,
-        description:
-            "Join the I Care Ministry as we reach out with love — food distribution, prayers, and sharing the message of hope in Christ.",
-    },
-];
+
+
+
+
+
+
+
 
 const Landing = () => {
+
+    const [assemblies, setAssemblies] = useState([]);
+    const [fellowships, setFellowships] = useState([]);
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        sanityClient
+            .fetch(
+                `*[_type=="branch"]{
+          name,
+          "slug": slug.current,
+          branchType
+        }`
+            )
+            .then((data) => {
+                console.log("RAW BRANCH DATA FROM SANITY:", data);
+
+                setAssemblies(data.filter((b) => b.branchType === "assembly"));
+                setFellowships(data.filter((b) => b.branchType === "fellowship"));
+            })
+            .catch(console.error);
+    }, []);
+
+    useEffect(() => {
+        sanityClient
+            .fetch(`
+            *[_type == "branch" && defined(events)]{
+                name,
+                events[]{
+                    title,
+                    date,
+                    location,
+                    description,
+                    image
+                }
+            }
+        `)
+            .then((data) => {
+                // Flatten all branch events into one array
+                const allEvents = data.flatMap(branch =>
+                    (branch.events || []).map(event => ({
+                        ...event,
+                        branchName: branch.name
+                    }))
+                );
+
+                // Optional: sort by date (earliest first)
+                allEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                setEvents(allEvents);
+            })
+            .catch(console.error);
+    }, []);
+
+    const formatDate = (dateString) => {
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    });
+};
+
+
+
+
     return (
         <>
             <Navbar />
@@ -65,7 +115,7 @@ const Landing = () => {
                 </section>
 
                 {/* HISTORY SECTION */}
-                <section className="relative bg-gradient-to-br from-gray-50 to-white py-24 px-6 md:px-16">
+                <section id="history" className="relative bg-gradient-to-br from-gray-50 to-white py-24 px-6 md:px-16">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -73,7 +123,7 @@ const Landing = () => {
                         viewport={{ once: true }}
                         className="max-w-5xl mx-auto text-center"
                     >
-                        
+
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#04164B] leading-tight mb-5">
                             Our Vision
                         </h2>
@@ -91,7 +141,7 @@ const Landing = () => {
                         <p className="text-lg italic leading-relaxed text-gray-600 mb-6">
                             Rev. Joseph Felix Latieku-Otoo, fondly called Pastor Otoo, was saved in 1973.
                             On 12th January 2003, he was inducted and ordained as an Apostle.
-                            In February 1991, during his prayer times at the Legon Botanical Gardens, a number of brothers joined him. Later, two days each week were fixed for the study of the Word and prayer. This continued faithfully for two and a half years.
+                            In February 1991, during his prayer times at the Legon Botanical Gardens, a number of brethren joined him. Later, two days each week were fixed for the study of the Word and prayer. This continued faithfully for two and a half years.
                             Out of this consistent fellowship, Morning Dew Ministries was birthed — founded upon the Word of God and prayer.
                         </p>
 
@@ -102,7 +152,7 @@ const Landing = () => {
                         <p className="text-lg leading-relaxed italic text-gray-700 mb-6">
                             After two and a half years of studying the Word and prayer, some brethren suggested starting a Sunday morning meeting. Initially, this was rejected.
                             However, while Rev. Otoo was praying, he heard an audible voice saying:
-                            “Gather my people, teach them, build an army out of them for my service and present a quality church unto me.”
+                            “Gather my people, teach them, build an army and present a quality church unto me.”
                             In obedience to this call, Sunday Morning Services were started around 1993 at the Mateheko J.T. Cluster of Schools, Accra- Ghana.
                             By 1999, the ministry moved from the Mateheko J.T. Cluster of Schools to its present location, next to the Holy Family Catholic Church, Mataheko.
                         </p>
@@ -117,7 +167,7 @@ const Landing = () => {
                 </section>
 
                 {/* MINISTRIES SECTION */}
-                <section className="relative bg-[#04164B] text-white py-24 px-6 md:px-16">
+                <section id="ministries" className="relative bg-[#04164B] text-white py-24 px-6 md:px-16">
                     <motion.h2
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -139,7 +189,7 @@ const Landing = () => {
                             {
                                 name: "I Care Ministry",
                                 verse: "1 Corinthians 13:8",
-                                focus: "Family & Manna Ministry",
+                                focus: "Family Ministry- Manna Ministry",
                             },
                             {
                                 name: "Bethel Carmel Ministry",
@@ -190,65 +240,80 @@ const Landing = () => {
                     </motion.div>
                 </section>
 
-                {/* ASSEMBLIES SECTION */}
+                {/* ASSEMBLIES & FELLOWSHIPS */}
                 <section className="bg-gray-50 py-24 px-6 md:px-16">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
-                        className="max-w-6xl mx-auto"
+                        className="max-w-6xl mx-auto text-center"
                     >
-                        <h2 className="text-4xl font-bold text-center text-[#04164B] mb-12">
+                        <h2 className="text-4xl md:text-5xl font-extrabold text-[#04164B] mb-4">
                             Assemblies & Fellowships
                         </h2>
-                        <div className="grid md:grid-cols-2 gap-12 text-lg">
-                            <div>
-                                <h3 className="text-2xl font-semibold text-[#04164B] mb-4">
+                        <p className="text-gray-600 max-w-2xl mx-auto mb-14">
+                            Find a local assembly or fellowship near you and become part of our growing community.
+                        </p>
+
+                        <div className="grid md:grid-cols-2 gap-10">
+                            {/* Assemblies Card */}
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                                <h3 className="text-2xl font-bold text-[#04164B] mb-6">
                                     Assemblies
                                 </h3>
-                                <ul className="space-y-2 text-gray-700">
-                                    {[
-                                        "Akweley Assembly",
-                                        "Kasoa Assembly",
-                                        "Nkawkaw Assembly",
-                                        "Oda Assembly",
-                                        "Sunyani / Berekum Assemblies",
-                                        "Swedru Assembly",
-                                    ].map((a) => (
-                                        <li
-                                            key={a}
-                                            className="hover:text-[#04164B] transition-transform hover:translate-x-2"
-                                        >
-                                            {a}
+
+                                <ul className="space-y-3">
+                                    {assemblies.length === 0 ? (
+                                        <li className="text-sm italic text-gray-400">
+                                            No assemblies added yet
                                         </li>
-                                    ))}
+                                    ) : (
+                                        assemblies.map((a) => (
+                                            <li key={a.slug}>
+                                                <Link
+                                                    to={`/assemblies/${a.slug}`}
+                                                    className="block rounded-lg px-4 py-2 transition-all cursor-pointer
+                             hover:bg-[#04164B]/5 hover:text-[#04164B] hover:translate-x-1"
+                                                >
+                                                    {a.name}
+                                                </Link>
+                                            </li>
+                                        ))
+                                    )}
                                 </ul>
                             </div>
-                            <div>
-                                <h3 className="text-2xl font-semibold text-[#04164B] mb-4">
+
+                            {/* Fellowships Card */}
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                                <h3 className="text-2xl font-bold text-[#04164B] mb-6">
                                     Fellowships
                                 </h3>
-                                <ul className="space-y-2 text-gray-700">
-                                    {[
-                                        "Bortianor Fellowship",
-                                        "Dansoman Fellowship",
-                                        "Haatso Fellowship",
-                                        "Odorkor Official Town Fellowship",
-                                        "Ofaakor Fellowship",
-                                    ].map((f) => (
-                                        <li
-                                            key={f}
-                                            className="hover:text-[#04164B] transition-transform hover:translate-x-2"
-                                        >
-                                            {f}
+
+                                <ul className="space-y-3">
+                                    {fellowships.length === 0 ? (
+                                        <li className="text-sm italic text-gray-400">
+                                            No fellowships added yet
                                         </li>
-                                    ))}
+                                    ) : (
+                                        fellowships.map((f) => (
+                                            <li key={f.slug}>
+                                                <Link
+                                                    to={`/fellowships/${f.slug}`}
+                                                    className="block rounded-lg px-4 py-2 transition-all cursor-pointer
+                             hover:bg-[#04164B]/5 hover:text-[#04164B] hover:translate-x-1"
+                                                >
+                                                    {f.name}
+                                                </Link>
+                                            </li>
+                                        ))
+                                    )}
                                 </ul>
                             </div>
                         </div>
                     </motion.div>
                 </section>
+
 
                 {/* VISION SECTION */}
                 <section className="relative bg-[#04164B] text-white py-24 px-6 text-center">
@@ -302,7 +367,7 @@ const Landing = () => {
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
                         {events.map((event, i) => (
                             <motion.div
-                                key={i}
+                                key={`${event.title}-${i}`}
                                 initial={{ opacity: 0, y: 40 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.2, duration: 0.8 }}
@@ -310,14 +375,23 @@ const Landing = () => {
                                 className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden cursor-pointer border border-gray-100"
                             >
                                 <div className="relative overflow-hidden h-56">
-                                    <img
-                                        src={event.image}
-                                        alt={event.title}
-                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                                    />
+                                    {event.image && (
+                                        <img
+                                            src={sanityClient.config().projectId
+                                                ? `https://cdn.sanity.io/images/${sanityClient.config().projectId}/${sanityClient.config().dataset}/${event.image.asset._ref
+                                                    .replace("image-", "")
+                                                    .replace("-jpg", ".jpg")
+                                                    .replace("-png", ".png")}`
+                                                : ""}
+                                            alt={event.title}
+                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                        />
+                                    )}
+
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
                                     <div className="absolute bottom-3 left-3 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                                        {event.date}
+                                        {formatDate(event.date)}
                                     </div>
                                 </div>
 
@@ -326,13 +400,20 @@ const Landing = () => {
                                         <h3 className="text-xl font-bold text-[#04164B] mb-2 group-hover:text-red-600 transition-colors">
                                             {event.title}
                                         </h3>
-                                        <p className="text-gray-600 text-sm mb-3">
+
+                                        <p className="text-gray-600 text-sm mb-1">
                                             📍 {event.location}
                                         </p>
+
+                                        <p className="text-xs text-gray-500 mb-3">
+                                            {event.branchName}
+                                        </p>
+
                                         <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
                                             {event.description}
                                         </p>
                                     </div>
+
                                     <button className="mt-4 bg-[#04164B] text-white px-4 py-2 text-sm font-medium rounded-full hover:bg-red-600 hover:text-white transition-all self-start">
                                         View Details
                                     </button>
