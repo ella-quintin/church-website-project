@@ -24,7 +24,7 @@ const Dashboard = () => {
             to="https://app.asoriba.com/#/login"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center justify-between w-full rounded-xl border border-blue-200 bg-blue-50 px-6 py-5 text-blue-700 font-semibold transition hover:bg-blue-600 hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="group flex items-center justify-between w-full rounded-xl border border-blue-200 bg-blue-50 px-6 py-5 text-[#04164B] font-semibold transition hover:bg-[#04164B] hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <span>Asoriba Dashboard</span>
             <span className="text-sm opacity-70 group-hover:opacity-100">
@@ -37,7 +37,7 @@ const Dashboard = () => {
             to="https://mdm-cms-page.sanity.studio"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center justify-between w-full rounded-xl border border-green-200 bg-green-50 px-6 py-5 text-green-700 font-semibold transition hover:bg-green-600 hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="group flex items-center justify-between w-full rounded-xl border border-red-200 bg-green-50 px-6 py-5 text-red-600  font-semibold transition hover:bg-red-600  hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
           >
             <span>Website Content Management</span>
             <span className="text-sm opacity-70 group-hover:opacity-100">
