@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { sanityClient } from "../../lib/sanity";
+import Footer from "../../components/footer"
+import ScrollToTop from "../../components/ScrollToTop.jsx"
 
 
 
@@ -32,13 +34,16 @@ const Landing = () => {
         }`
             )
             .then((data) => {
-                console.log("RAW BRANCH DATA FROM SANITY:", data);
+
 
                 setAssemblies(data.filter((b) => b.branchType === "assembly"));
                 setFellowships(data.filter((b) => b.branchType === "fellowship"));
             })
-            .catch(console.error);
+            .catch(() => {
+            
+            });
     }, []);
+
 
     useEffect(() => {
         sanityClient
@@ -68,17 +73,19 @@ const Landing = () => {
 
                 setEvents(allEvents);
             })
-            .catch(console.error);
+            .catch(() => {
+
+            });
     }, []);
 
     const formatDate = (dateString) => {
-    if (!dateString) return "";
-    return new Date(dateString).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    });
-};
+        if (!dateString) return "";
+        return new Date(dateString).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        });
+    };
 
 
 
@@ -101,14 +108,14 @@ const Landing = () => {
                         >
                             Welcome to
                         </motion.p>
-                        <motion.h1
+                        <motion.h2
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1 }}
                             className="text-5xl md:text-6xl font-extrabold mb-4 tracking-wide"
                         >
                             Morning Dew Ministries
-                        </motion.h1>
+                        </motion.h2>
 
 
                     </div>
@@ -128,7 +135,7 @@ const Landing = () => {
                             Our Vision
                         </h2>
                         <p className="text-lg italic leading-relaxed text-gray-600 mb-6">
-                            Gather my people, teach them, create an army and present a quality Church.
+                            Gather my people, teach them, build an army and present a quality church.
                         </p>
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#04164B] leading-tight mb-5">
                             History of the Church
@@ -422,11 +429,8 @@ const Landing = () => {
                         ))}
                     </div>
                 </section>
-
-                {/* FOOTER */}
-                <footer className="bg-gray-900 text-gray-400 text-center py-6 text-sm">
-                    © {new Date().getFullYear()} Morning Dew Ministries. All rights reserved.
-                </footer>
+              
+                <Footer />
             </main>
         </>
     )

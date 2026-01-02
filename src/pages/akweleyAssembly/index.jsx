@@ -44,9 +44,9 @@ const AkweleyAssembly = () => {
       <section className="relative bg-[#04164B] text-white py-20 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1">
-            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+            <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
               Akweley Assembly
-            </h1>
+            </h2>
             <p className="mt-4 text-lg md:text-xl max-w-2xl">
               A warm, community-focused congregation — worship, grow, and serve
               together. Join us for Sunday services, midweek gatherings, and

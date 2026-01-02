@@ -5,6 +5,8 @@ import BranchPage from "./pages/branchPage";
 import Contact from "./pages/contact";
 import ReportsResources from "./pages/reports";
 import NewsUpdates from "./pages/newsUpdates";
+import Dashboard from "./pages/dashboard";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 const router = createBrowserRouter([
   {
@@ -25,12 +27,17 @@ const router = createBrowserRouter([
       {
         path: "/news-updates",
         element: <NewsUpdates />
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />
       }
     ],
   },
 ]);
 
 const App = () => {
+  <ScrollToTop />;
   return <RouterProvider router={router} />;
 };
 

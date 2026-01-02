@@ -55,32 +55,49 @@ const Navbar = () => {
                         .sort((a, b) => a.name.localeCompare(b.name))
                 );
             })
-            .catch(console.error);
+           
     }, []);
 
     /* ================= HELPERS ================= */
     const handleHomeClick = () => {
         setIsMenuOpen(false);
-        navigate("/");
+
+        if (location.pathname === "/") {
+            // already on home → scroll to hero
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            // go to home, then scroll
+            navigate("/");
+        }
     };
 
     const handleAboutUsClick = () => {
         setIsMenuOpen(false);
+
         if (location.pathname === "/") {
             document.getElementById("history")?.scrollIntoView({ behavior: "smooth" });
         } else {
-            navigate("/#history");
+            navigate("/");
+            setTimeout(() => {
+                document.getElementById("history")?.scrollIntoView({ behavior: "smooth" });
+            }, 100);
         }
     };
 
+
     const handleMinistriesClick = () => {
         setIsMenuOpen(false);
+
         if (location.pathname === "/") {
             document.getElementById("ministries")?.scrollIntoView({ behavior: "smooth" });
         } else {
-            navigate("/#ministries");
+            navigate("/");
+            setTimeout(() => {
+                document.getElementById("ministries")?.scrollIntoView({ behavior: "smooth" });
+            }, 100);
         }
     };
+
 
     /* ================= DESKTOP ================= */
     const isActive = (path) =>

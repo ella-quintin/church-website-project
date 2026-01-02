@@ -3,10 +3,10 @@ import { createImageUrlBuilder } from "@sanity/image-url";
 
 /* ================= SANITY CLIENT ================= */
 export const sanityClient = createClient({
-  projectId: "6hvvq1ef",       // your project ID
+  projectId: "6hvvq1ef",      
   dataset: "production",
   apiVersion: "2024-01-01",
-  useCdn: true,               // safe for public frontend
+  useCdn: true,              
 });
 
 /* ================= IMAGE URL BUILDER ================= */

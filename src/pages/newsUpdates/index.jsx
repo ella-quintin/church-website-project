@@ -1,6 +1,7 @@
 import Navbar from "../../components/navbar";
 import { motion } from "framer-motion";
 import { CalendarDays, Bell } from "lucide-react";
+import Footer from "../../components/footer";
 
 const NewsUpdates = () => {
     return (
@@ -16,9 +17,9 @@ const NewsUpdates = () => {
                         transition={{ duration: 0.8 }}
                         className="max-w-3xl mx-auto"
                     >
-                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+                        <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
                             News & Updates
-                        </h1>
+                        </h2>
                         <p className="text-gray-200 text-lg">
                             Official announcements, programmes, and ministry updates
                         </p>
@@ -201,10 +202,7 @@ const NewsUpdates = () => {
                     </motion.div>
                 </section>
 
-                {/* FOOTER */}
-                <footer className="bg-gray-900 text-gray-400 text-center py-6 text-sm">
-                    © {new Date().getFullYear()} Morning Dew Ministries. All rights reserved.
-                </footer>
+                <Footer />
             </main>
         </>
     );

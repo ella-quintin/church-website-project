@@ -4,6 +4,17 @@ export default {
     type: "document",
 
     fields: [
+
+        {
+            name: "branchAdmins",
+            title: "Branch Admin(s)",
+            type: "array",
+            of: [{ type: "string" }],
+            description: "Email address(es) of admins allowed to manage this branch",
+            validation: Rule =>
+                Rule.required().min(1).error("At least one branch admin email is required"),
+        },
+
         {
             name: "name",
             title: "Branch Name",

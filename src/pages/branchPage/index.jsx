@@ -32,7 +32,7 @@ const BranchPage = () => {
         { slug }
       )
       .then(setBranch)
-      .catch(console.error);
+      
   }, [slug]);
 
   if (!branch) {
@@ -48,9 +48,9 @@ const BranchPage = () => {
         <section className="relative bg-[#04164B] text-white py-20 px-6">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
             <div className="flex-1">
-              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+              <h3 className="text-4xl md:text-5xl font-extrabold leading-tight">
                 {branch.heroTitle || branch.name}
-              </h1>
+              </h3>
               <p className="mt-4 text-lg md:text-xl max-w-2xl">
                 {branch.heroDescription}
               </p>

@@ -1,6 +1,7 @@
 import Navbar from "../../components/navbar";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Footer from "../../components/footer";
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -18,16 +19,8 @@ const Contact = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // 🔐 Secure placeholder (no direct backend logic here)
-        console.log("Contact form submitted:", formData);
-
-        // Reset form
-        setFormData({
-            name: "",
-            email: "",
-            subject: "",
-            message: "",
-        });
+       
+       
     };
 
     return (
@@ -43,9 +36,9 @@ const Contact = () => {
                         transition={{ duration: 0.8 }}
                         className="max-w-3xl mx-auto"
                     >
-                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+                        <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
                             Contact Us
-                        </h1>
+                        </h2>
                         <p className="text-gray-200 text-lg">
                             We would love to hear from you. Reach out to us for prayers,
                             enquiries, or fellowship.
@@ -181,10 +174,7 @@ const Contact = () => {
                     </div>
                 </section>
 
-                {/* FOOTER */}
-                <footer className="bg-gray-900 text-gray-400 text-center py-6 text-sm">
-                    © {new Date().getFullYear()} Morning Dew Ministries. All rights reserved.
-                </footer>
+               <Footer />
             </main>
         </>
     );

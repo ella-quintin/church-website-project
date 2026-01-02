@@ -1,6 +1,7 @@
 import Navbar from "../../components/navbar";
 import { motion } from "framer-motion";
 import { FileText, Clock, Images } from "lucide-react";
+import Footer from "../../components/footer";
 
 const ReportsResources = () => {
     return (
@@ -91,10 +92,7 @@ const ReportsResources = () => {
                     </motion.div>
                 </section>
 
-                {/* FOOTER */}
-                <footer className="bg-gray-900 text-gray-400 text-center py-6 text-sm">
-                    © {new Date().getFullYear()} Morning Dew Ministries. All rights reserved.
-                </footer>
+                <Footer />
             </main>
         </>
     );
