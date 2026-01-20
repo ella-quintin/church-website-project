@@ -7,12 +7,14 @@ import ReportsResources from "./pages/reports";
 import NewsUpdates from "./pages/newsUpdates";
 import Dashboard from "./pages/dashboard";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import AboutUs from "./pages/aboutUs/index.jsx";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
       { path: "/", element: <Landing /> },
+      { path: "/about-us", element: <AboutUs /> },
 
       // ✅ Assemblies (dynamic)
       { path: "/assemblies/:slug", element: <BranchPage /> },

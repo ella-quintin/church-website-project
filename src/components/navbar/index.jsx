@@ -72,15 +72,14 @@ const Navbar = () => {
     };
 
     const handleAboutUsClick = () => {
-        setIsMenuOpen(false);
+         setIsMenuOpen(false);
 
-        if (location.pathname === "/") {
-            document.getElementById("history")?.scrollIntoView({ behavior: "smooth" });
+        if (location.pathname === "/about-us") {
+            // already on home → scroll to hero
+            window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
-            navigate("/");
-            setTimeout(() => {
-                document.getElementById("history")?.scrollIntoView({ behavior: "smooth" });
-            }, 100);
+            // go to home, then scroll
+            navigate("/about-us");
         }
     };
 
@@ -134,10 +133,14 @@ const Navbar = () => {
                     >
                         HOME
                     </button>
-
-                    <button onClick={handleAboutUsClick} className="font-medium hover:text-[#04164B]">
+                    <button
+                        onClick={handleAboutUsClick}
+                        className={`font-medium transition-colors cursor-pointer ${isActive("/about-us") ? "text-[#04164B]" : "hover:text-[#04164B]"
+                            }`}
+                    >
                         ABOUT US
                     </button>
+
 
                     <button onClick={handleMinistriesClick} className="font-medium hover:text-[#04164B]">
                         MINISTRIES & DEPARTMENTS

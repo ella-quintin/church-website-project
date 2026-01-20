@@ -1,101 +1,164 @@
 import Navbar from "../../components/navbar";
-import { motion } from "framer-motion";
-import { FileText, Clock, Images } from "lucide-react";
 import Footer from "../../components/footer";
+import { motion } from "framer-motion";
 
-const ReportsResources = () => {
-    return (
-        <>
-            <Navbar />
+const executives = [
+  {
+    name: "Rev. Nana Akua Appiah",
+    role: "Chairperson",
+    council: "National Executive Council",
+    image: "/images/leaders/placeholder.png",
+  },
+  {
+    name: "Elder Eric Akumiah",
+    role: "General Secretary",
+    council: "National Executive Council",
+    image: "/images/leaders/placeholder.png",
+  },
+  {
+    name: "Rev. Edward Quansah",
+    role: "Southern Command Minister",
+    council: "National Executive Council",
+    image: "/images/leaders/placeholder.png",
+  },
+  {
+    name: "Rev. Stephen Opoku Asare",
+    role: "Mid Command Minister",
+    council: "National Executive Council",
+    image: "/images/leaders/placeholder.png",
+  },
+  {
+    name: "Elder Beatrice Kyeremeh",
+    role: "Northern Command Elder",
+    council: "National Executive Council",
+    image: "/images/leaders/placeholder.png",
+  },
+];
 
-            <main className=" overflow-x-hidden text-gray-800">
-                {/* HERO */}
-                <section className="bg-[#04164B] text-white py-20 px-6 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="max-w-3xl mx-auto"
-                    >
-                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-                            Reports & Resources
-                        </h1>
-                        <p className="text-gray-200 text-lg">
-                            Ministry reports, learning materials, and official publications
-                        </p>
-                    </motion.div>
-                </section>
+const AboutUs = () => {
+  return (
+    <>
+      <Navbar />
 
-                {/* CONTENT */}
-                <section className="py-24 px-6 md:px-16 bg-gradient-to-br from-gray-50 to-white">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="max-w-5xl mx-auto text-center"
-                    >
-                        <div className="flex justify-center mb-8">
-                            <div className="bg-[#04164B]/10 p-6 rounded-full">
-                                <Clock size={40} className="text-[#04164B]" />
-                            </div>
-                        </div>
+      <main className="overflow-x-hidden text-gray-800">
+        {/* HERO */}
+        <section className="bg-[#04164B] text-white py-20 px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl mx-auto"
+          >
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+              About Morning Dew Ministries
+            </h1>
+            <p className="text-gray-200 text-lg">
+              A Christ-centered ministry founded on the Word of God and prayer
+            </p>
+          </motion.div>
+        </section>
 
-                        <h2 className="text-3xl md:text-4xl font-bold text-[#04164B] mb-4">
-                            Coming Soon
-                        </h2>
+        {/* CONTENT */}
+        <section className="py-24 px-6 md:px-16 bg-gradient-to-br from-gray-50 to-white">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="max-w-5xl mx-auto"
+          >
+            {/* HISTORY */}
+            <section id="history" className="mb-24">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#04164B] mb-6">
+                History of the Church
+              </h2>
 
-                        <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-12">
-                            We are currently preparing official reports, ministry publications,
-                            church media to serve our members,
-                            partners, and the wider Christian community.
-                        </p>
+              <h3 className="text-sm font-semibold tracking-widest text-red-600 uppercase mb-3">
+                Founding and Early Beginnings
+              </h3>
 
-                        {/* PLACEHOLDER CARDS */}
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-                            <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-                                <FileText className="text-red-600 mb-4 mx-auto" size={32} />
-                                <h3 className="font-semibold text-lg mb-2">
-                                    Ministry Reports
-                                </h3>
-                                <p className="text-sm text-gray-500">
-                                    Annual reports, outreach summaries, and impact documentation.
-                                </p>
-                            </div>
+              <p className="text-lg leading-relaxed text-gray-700 mb-8">
+                Rev. Joseph Felix Latieku-Otoo, fondly called Pastor Otoo, was saved
+                in 1973. On 12th January 2003, he was inducted and ordained as an
+                Apostle. In February 1991, during his prayer times at the Legon
+                Botanical Gardens, a number of brethren joined him. Two days each
+                week were later fixed for the study of the Word and prayer.
+              </p>
 
-                            <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-                                <Images className="text-red-600 mb-4 mx-auto" size={32} />
-                                <h3 className="font-semibold text-lg mb-2">
-                                    Church Media
-                                </h3>
-                                <p className="text-sm text-gray-500">
-                                    Various from our events.
-                                </p>
-                            </div>
+              <p className="text-lg leading-relaxed text-gray-700 mb-10">
+                This continued faithfully for two and a half years. Out of this
+                consistent fellowship, Morning Dew Ministries was birthed —
+                founded upon the Word of God and prayer.
+              </p>
 
-                            <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-                                <FileText className="text-red-600 mb-4 mx-auto" size={32} />
-                                <h3 className="font-semibold text-lg mb-2">
-                                    Publications
-                                </h3>
-                                <p className="text-sm text-gray-500">
-                                    Official documents, newsletters, and ministry publications.
-                                </p>
-                            </div>
-                        </div>
+              <h3 className="text-sm font-semibold tracking-widest text-red-600 uppercase mb-3">
+                Divine Call
+              </h3>
 
-                        {/* NOTE */}
-                        <p className="mt-14 text-sm italic text-gray-500">
-                            Please check back soon. This section will be updated as materials
-                            become available.
-                        </p>
-                    </motion.div>
-                </section>
+              <p className="text-lg leading-relaxed text-gray-700 mb-10">
+                During prayer, Rev. Otoo heard an audible voice saying:
+                <br />
+                <span className="italic font-medium">
+                  “Gather my people, teach them, build an army and present a
+                  quality church unto me.”
+                </span>
+              </p>
 
-                <Footer />
-            </main>
-        </>
-    );
+              <p className="text-lg leading-relaxed text-gray-700 mb-10">
+                In obedience to this call, Sunday Morning Services began around
+                1993 at the Mateheko J.T. Cluster of Schools in Accra, Ghana. By
+                1999, the ministry moved to its present location near the Holy
+                Family Catholic Church, Mataheko.
+              </p>
+
+              <h3 className="text-sm font-semibold tracking-widest text-red-600 uppercase mb-3">
+                Scriptural Foundation
+              </h3>
+
+              <blockquote className="border-l-4 border-red-600 pl-6 italic text-gray-600 text-lg">
+                “Now I say to you that you are Peter (which means ‘rock’), and
+                upon this rock I will build my Church, and the gates of hell will
+                not conquer it.”
+                <br />
+                <span className="font-semibold">— Matthew 16:18</span>
+              </blockquote>
+            </section>
+
+            {/* EXECUTIVES */}
+            <section className="mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#04164B] text-center mb-12">
+                National Executive Council
+              </h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+                {executives.map((person, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-2xl shadow-sm p-6 flex flex-col items-center text-center hover:shadow-md transition"
+                  >
+                    <img
+                      src={person.image}
+                      alt={person.name}
+                      className="w-36 h-36 object-cover rounded-full mb-4"
+                    />
+                    <h3 className="text-lg font-semibold text-[#04164B]">
+                      {person.name}
+                    </h3>
+                    <p className="text-sm text-gray-700">{person.role}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {person.council}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </motion.div>
+        </section>
+
+        <Footer />
+      </main>
+    </>
+  );
 };
 
-export default ReportsResources;
+export default AboutUs;

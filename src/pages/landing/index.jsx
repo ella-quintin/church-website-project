@@ -40,7 +40,7 @@ const Landing = () => {
                 setFellowships(data.filter((b) => b.branchType === "fellowship"));
             })
             .catch(() => {
-            
+
             });
     }, []);
 
@@ -122,7 +122,7 @@ const Landing = () => {
                 </section>
 
                 {/* HISTORY SECTION */}
-                <section id="history" className="relative bg-gradient-to-br from-gray-50 to-white py-24 px-6 md:px-16">
+                <section className="relative bg-gradient-to-br from-gray-50 to-white py-24 px-6 md:px-16">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -138,38 +138,25 @@ const Landing = () => {
                             Gather my people, teach them, build an army and present a quality church.
                         </p>
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#04164B] leading-tight mb-5">
-                            History of the Church
+                            FOCUS FOR YEAR 2026:
                         </h2>
 
-                        <h2 className="text-xs sm:text-lg  font-bold tracking-wider text-red-600 mb-3">
-                            Founding and Early Beginnings
-                        </h2>
 
-                        <p className="text-lg italic leading-relaxed text-gray-600 mb-6">
-                            Rev. Joseph Felix Latieku-Otoo, fondly called Pastor Otoo, was saved in 1973.
-                            On 12th January 2003, he was inducted and ordained as an Apostle.
-                            In February 1991, during his prayer times at the Legon Botanical Gardens, a number of brethren joined him. Later, two days each week were fixed for the study of the Word and prayer. This continued faithfully for two and a half years.
+                        <p className="text-lg italic leading-relaxed text-gray-600 mb-3">
+                            And the things you have heard me say in the presence of many witnesses entrust to reliable people who will also be qualified to teach others.
                             Out of this consistent fellowship, Morning Dew Ministries was birthed — founded upon the Word of God and prayer.
                         </p>
 
                         <h2 className="text-xs sm:text-lg font-bold tracking-wider text-red-600 mb-3">
-                            Divine Call
+                            2 Timothy 2:2 NIV
                         </h2>
+                        <Link
+                            to="/news-updates"
+                            className="mt-4 bg-[#04164B] text-white px-6 py-2 text-sm font-medium rounded-full hover:bg-red-600 hover:text-white transition-all inline-block"
+                        >
+                            2026 Ministry Calendar
+                        </Link>
 
-                        <p className="text-lg leading-relaxed italic text-gray-700 mb-6">
-                            After two and a half years of studying the Word and prayer, some brethren suggested starting a Sunday morning meeting. Initially, this was rejected.
-                            However, while Rev. Otoo was praying, he heard an audible voice saying:
-                            “Gather my people, teach them, build an army and present a quality church unto me.”
-                            In obedience to this call, Sunday Morning Services were started around 1993 at the Mateheko J.T. Cluster of Schools, Accra- Ghana.
-                            By 1999, the ministry moved from the Mateheko J.T. Cluster of Schools to its present location, next to the Holy Family Catholic Church, Mataheko.
-                        </p>
-
-                        <h2 className="text-xs sm:text-lg font-bold tracking-wider text-red-600 mb-3">
-                            Scriptural Foundation
-                        </h2>
-                        <p className="text-lg text-gray-600 italic">
-                            “Now I say to you that you are Peter (which means ‘rock’), and upon this rock (revelation of the Word) I will build my Church, and the gates of hell will not conquer it.” — Matthew 16:18
-                        </p>
                     </motion.div>
                 </section>
 
@@ -248,6 +235,7 @@ const Landing = () => {
                 </section>
 
                 {/* ASSEMBLIES & FELLOWSHIPS */}
+                {/* ASSEMBLIES & FELLOWSHIPS */}
                 <section className="bg-gray-50 py-24 px-6 md:px-16">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
@@ -259,12 +247,13 @@ const Landing = () => {
                         <h2 className="text-4xl md:text-5xl font-extrabold text-[#04164B] mb-4">
                             Assemblies & Fellowships
                         </h2>
+
                         <p className="text-gray-600 max-w-2xl mx-auto mb-14">
                             Find a local assembly or fellowship near you and become part of our growing community.
                         </p>
 
                         <div className="grid md:grid-cols-2 gap-10">
-                            {/* Assemblies Card */}
+                            {/* Assemblies */}
                             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
                                 <h3 className="text-2xl font-bold text-[#04164B] mb-6">
                                     Assemblies
@@ -276,22 +265,25 @@ const Landing = () => {
                                             No assemblies added yet
                                         </li>
                                     ) : (
-                                        assemblies.map((a) => (
-                                            <li key={a.slug}>
-                                                <Link
-                                                    to={`/assemblies/${a.slug}`}
-                                                    className="block rounded-lg px-4 py-2 transition-all cursor-pointer
-                             hover:bg-[#04164B]/5 hover:text-[#04164B] hover:translate-x-1"
-                                                >
-                                                    {a.name}
-                                                </Link>
-                                            </li>
-                                        ))
+                                        assemblies
+                                            .slice()
+                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                            .map((a) => (
+                                                <li key={a.slug}>
+                                                    <Link
+                                                        to={`/assemblies/${a.slug}`}
+                                                        className="block rounded-lg px-4 py-2 transition-all cursor-pointer
+                    hover:bg-[#04164B]/5 hover:text-[#04164B] hover:translate-x-1"
+                                                    >
+                                                        {a.name}
+                                                    </Link>
+                                                </li>
+                                            ))
                                     )}
                                 </ul>
                             </div>
 
-                            {/* Fellowships Card */}
+                            {/* Fellowships */}
                             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
                                 <h3 className="text-2xl font-bold text-[#04164B] mb-6">
                                     Fellowships
@@ -303,23 +295,27 @@ const Landing = () => {
                                             No fellowships added yet
                                         </li>
                                     ) : (
-                                        fellowships.map((f) => (
-                                            <li key={f.slug}>
-                                                <Link
-                                                    to={`/fellowships/${f.slug}`}
-                                                    className="block rounded-lg px-4 py-2 transition-all cursor-pointer
-                             hover:bg-[#04164B]/5 hover:text-[#04164B] hover:translate-x-1"
-                                                >
-                                                    {f.name}
-                                                </Link>
-                                            </li>
-                                        ))
+                                        fellowships
+                                            .slice()
+                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                            .map((f) => (
+                                                <li key={f.slug}>
+                                                    <Link
+                                                        to={`/fellowships/${f.slug}`}
+                                                        className="block rounded-lg px-4 py-2 transition-all cursor-pointer
+                    hover:bg-[#04164B]/5 hover:text-[#04164B] hover:translate-x-1"
+                                                    >
+                                                        {f.name}
+                                                    </Link>
+                                                </li>
+                                            ))
                                     )}
                                 </ul>
                             </div>
                         </div>
                     </motion.div>
                 </section>
+
 
 
                 {/* VISION SECTION */}
@@ -429,7 +425,7 @@ const Landing = () => {
                         ))}
                     </div>
                 </section>
-              
+
                 <Footer />
             </main>
         </>
