@@ -19,8 +19,8 @@ const Contact = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-       
-       
+
+
     };
 
     return (
@@ -77,7 +77,12 @@ const Contact = () => {
 
                                 <div>
                                     <p className="font-semibold text-[#04164B]">📞 Phone</p>
-                                    <p>+233 XX XXX XXXX</p>
+
+                                    {" "}
+                                    <a href="tel:0599920007" className="hover:text-gray-800 transition">
+                                        0302314528 | 0599920007
+                                    </a>
+
                                 </div>
 
                                 <div>
@@ -174,7 +179,7 @@ const Contact = () => {
                     </div>
                 </section>
 
-               <Footer />
+                <Footer />
             </main>
         </>
     );

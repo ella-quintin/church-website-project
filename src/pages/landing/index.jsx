@@ -6,7 +6,7 @@ import training from "../../assets/images/training.jpg"
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { sanityClient } from "../../lib/sanity";
+import { sanityClient, urlFor } from "../../lib/sanity";
 import Footer from "../../components/footer"
 import ScrollToTop from "../../components/ScrollToTop.jsx"
 
@@ -23,6 +23,7 @@ const Landing = () => {
     const [assemblies, setAssemblies] = useState([]);
     const [fellowships, setFellowships] = useState([]);
     const [events, setEvents] = useState([]);
+    const [blogs, setBlogs] = useState(null);
 
     useEffect(() => {
         sanityClient
@@ -42,6 +43,24 @@ const Landing = () => {
             .catch(() => {
 
             });
+    }, []);
+
+    useEffect(() => {
+        sanityClient
+            .fetch(`
+      *[_type == "branchBlog"] | order(publishedAt desc){
+        title,
+        "slug": slug.current,
+        excerpt,
+        publishedAt,
+        featuredImage,
+        branch->{
+          name,
+          "slug": slug.current
+        }
+      }
+    `)
+            .then(setBlogs);
     }, []);
 
 
@@ -154,7 +173,7 @@ const Landing = () => {
                             to="/news-updates"
                             className="mt-4 bg-[#04164B] text-white px-6 py-2 text-sm font-medium rounded-full hover:bg-red-600 hover:text-white transition-all inline-block"
                         >
-                            2026 Ministry Calendar
+                            View 2026 Ministry Calendar
                         </Link>
 
                     </motion.div>
@@ -398,7 +417,7 @@ const Landing = () => {
                                     </div>
                                 </div>
 
-                                <div className="p-6 flex flex-col justify-between h-[250px]">
+                                <div className="p-6 flex flex-col justify-between ">
                                     <div>
                                         <h3 className="text-xl font-bold text-[#04164B] mb-2 group-hover:text-red-600 transition-colors">
                                             {event.title}
@@ -424,6 +443,71 @@ const Landing = () => {
                             </motion.div>
                         ))}
                     </div>
+                </section>
+
+                <section className="py-20 px-6 md:px-16 bg-gray-50">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="max-w-7xl mx-auto"
+                    >
+                        <div className="text-center mb-14">
+                        <h2 className=" text-center text-4xl md:text-5xl font-bold text-[#04164B] mb-4">
+                            Blog & News Updates
+                        </h2>
+                          <p className="text-gray-600 text-lg">
+                            Overview of blog posts and news updates across all branches
+                        </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                            {blogs === null ? (
+                                <p className="text-center text-gray-400">Loading blogs…</p>
+                            ) : blogs.length === 0 ? (
+                                <p className="text-center text-gray-500 italic">
+                                    No blog posts yet.
+                                </p>
+                            ) : (
+                                blogs.slice(0, 6).map((post, i) => (
+                                    <article
+                                        key={post.slug}
+                                        className="bg-gray-50 rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
+                                    >
+                                        {post.featuredImage && (
+                                            <img
+                                                src={urlFor(post.featuredImage).width(600).url()}
+                                                alt={post.title}
+                                                className="h-48 w-full object-cover"
+                                            />
+                                        )}
+
+                                        <div className="p-6">
+                                            <p className="text-xs text-gray-500 mb-1">
+                                                {post.branch?.name}
+                                            </p>
+
+                                            <h3 className="text-lg font-bold text-[#04164B] mb-2">
+                                                {post.title}
+                                            </h3>
+
+                                            <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+                                                {post.excerpt}
+                                            </p>
+
+                                            <Link
+                                                to={`/${post.branch?.branchType === "assembly" ? "assemblies" : "fellowships"}/${post.branch?.slug}/blog/${post.slug}`}
+                                                className="mt-4 bg-[#04164B] text-white px-4 py-2 text-sm font-medium rounded-full hover:bg-red-600 hover:text-white transition-all self-start"
+                                            >
+                                                Read More →
+                                            </Link>
+                                        </div>
+                                    </article>
+                                ))
+                            )}
+                        </div>
+                    </motion.div>
                 </section>
 
                 <Footer />

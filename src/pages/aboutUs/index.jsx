@@ -2,14 +2,18 @@ import React from "react";
 import { motion } from "framer-motion";
 import rev from "../../assets/images/rev.jpeg";
 import eric from "../../assets/images/eric.jpeg";
+import stephen from "../../assets/images/stephen.jpeg";
+import revakua from "../../assets/images/revakua.jpeg";
+import beatrice from "../../assets/images/beatrice.jpeg";
 import Footer from "../../components/footer";
+import { b } from "framer-motion/client";
 
 const executives = [
     {
         name: "Rev. Nana Akua Appiah",
         role: "Chairperson",
         council: "National Executive Council",
-        image: "/images/leaders/placeholder.png",
+        image: revakua,
     },
     {
         name: "Elder Eric Akumiah",
@@ -27,13 +31,13 @@ const executives = [
         name: "Rev. Stephen Opoku Asare",
         role: "Mid Command Minister",
         council: "National Executive Council",
-        image: "/images/leaders/placeholder.png",
+        image: stephen,
     },
     {
         name: "Elder Beatrice Kyeremeh",
         role: "Northern Command Elder",
         council: "National Executive Council",
-        image: "/images/leaders/placeholder.png",
+        image: beatrice,
     },
 ];
 
@@ -42,7 +46,7 @@ const council = [
         name: "Rev. Stephen Opoku Asare",
         role: "Chairman,",
         council: "Ministerial Council",
-        image: "/images/leaders/placeholder.png",
+        image: stephen,
     },
     {
         name: "Elder Agnes Siriboe",

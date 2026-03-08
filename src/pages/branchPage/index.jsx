@@ -7,36 +7,57 @@ import Navbar from "../../components/navbar";
 const BranchPage = () => {
   const { slug } = useParams();
   const [branch, setBranch] = useState(null);
+  const [blogs, setBlogs] = useState(null); // null = loading
 
+  /* ================= FETCH BRANCH ================= */
   useEffect(() => {
     sanityClient
       .fetch(
         `*[_type=="branch" && slug.current==$slug][0]{
-          name,
-          heroTitle,
-          heroDescription,
-          heroImage,
-          welcomeTitle,
-          welcomeText,
-          serviceTimes,
-          location,
-          childrenYouthInfo,
-          events[] {
-            title,
-            date,
-            location,
-            description,
-            image
-          }
-        }`,
+  name,
+  branchType,
+  heroTitle,
+  heroDescription,
+  heroImage,
+  welcomeTitle,
+  welcomeText,
+  serviceTimes,
+  location,
+  childrenYouthInfo,
+  events[] {
+    title,
+    date,
+    location,
+    description,
+    image
+  }
+}`,
         { slug }
       )
-      .then(setBranch)
-      
+      .then(setBranch);
+  }, [slug]);
+
+  /* ================= FETCH BRANCH BLOGS ================= */
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+        *[_type == "branchBlog" && branch->slug.current == $slug]
+        | order(publishedAt desc){
+          title,
+          "slug": slug.current,
+          excerpt,
+          publishedAt,
+          featuredImage
+        }
+        `,
+        { slug }
+      )
+      .then(setBlogs);
   }, [slug]);
 
   if (!branch) {
-    return <p className="text-center mt-32">Loading...</p>;
+    return <p className="text-center mt-32">Loading branch…</p>;
   }
 
   return (
@@ -48,24 +69,25 @@ const BranchPage = () => {
         <section className="relative bg-[#04164B] text-white py-20 px-6">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
             <div className="flex-1">
-              <h3 className="text-4xl md:text-5xl font-extrabold leading-tight">
+              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
                 {branch.heroTitle || branch.name}
-              </h3>
+              </h1>
+
               <p className="mt-4 text-lg md:text-xl max-w-2xl">
                 {branch.heroDescription}
               </p>
 
-              <div className="mt-6 flex gap-4">
+              <div className="mt-6 flex gap-4 flex-wrap">
                 <Link
                   to="/connect"
-                  className="inline-block bg-white text-red-600 font-semibold px-5 py-3 rounded-lg shadow"
+                  className="bg-white text-red-600 font-semibold px-5 py-3 rounded-lg shadow"
                 >
                   Join Us This Sunday
                 </Link>
 
                 <a
                   href="#events"
-                  className="inline-block border border-white/50 text-white px-5 py-3 rounded-lg"
+                  className="border border-white/50 text-white px-5 py-3 rounded-lg"
                 >
                   Upcoming Events
                 </a>
@@ -73,24 +95,13 @@ const BranchPage = () => {
             </div>
 
             <div className="flex-1">
-              <div className="rounded-xl overflow-hidden shadow-lg bg-white/10 p-6">
-                {branch.heroImage && (
-                  <img
-                    src={urlFor(branch.heroImage).width(800).url()}
-                    alt={branch.name}
-                    className="w-full h-48 object-cover rounded-md"
-                  />
-                )}
-
-                <div className="mt-4">
-                  <h3 className="text-xl font-semibold">
-                    {branch.welcomeTitle || "Welcome"}
-                  </h3>
-                  <p className="mt-2 text-sm">
-                    {branch.welcomeText}
-                  </p>
-                </div>
-              </div>
+              {branch.heroImage && (
+                <img
+                  src={urlFor(branch.heroImage).width(900).url()}
+                  alt={branch.name}
+                  className="rounded-xl shadow-lg w-full h-64 object-cover"
+                />
+              )}
             </div>
           </div>
         </section>
@@ -110,9 +121,7 @@ const BranchPage = () => {
 
             <div className="p-6 border rounded-lg">
               <h4 className="font-bold">Children & Youth</h4>
-              <p className="mt-2 text-sm">
-                {branch.childrenYouthInfo}
-              </p>
+              <p className="mt-2 text-sm">{branch.programs}</p>
             </div>
           </div>
         </section>
@@ -120,134 +129,125 @@ const BranchPage = () => {
         {/* ================= EVENTS ================= */}
         <section
           id="events"
-          className="relative py-24 px-6 md:px-16 bg-gradient-to-br from-gray-50 to-white overflow-hidden"
+          className="py-24 px-6 md:px-16 bg-gradient-to-br from-gray-50 to-white"
         >
-          {/* Decorative background */}
-          <div className="absolute top-0 left-0 w-80 h-80 bg-yellow-100 rounded-full blur-3xl opacity-30 -z-10"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-30 -z-10"></div>
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold text-[#04164B] text-center mb-16"
+          >
+            Upcoming Events
+          </motion.h2>
 
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+            {branch.events?.map((event, i) => (
+              <motion.article
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden"
+              >
+                {event.image && (
+                  <img
+                    src={urlFor(event.image).width(600).url()}
+                    alt={event.title}
+                    className="h-56 w-full object-cover"
+                  />
+                )}
+
+                <div className="p-6">
+                  <p className="text-xs text-gray-500 mb-2">
+                    {new Date(event.date).toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
+
+                  <h3 className="text-xl font-bold text-[#04164B] mb-2">
+                    {event.title}
+                  </h3>
+
+                  <p className="text-sm text-gray-600 mb-3">
+                    📍 {event.location}
+                  </p>
+
+                  <p className="text-sm text-gray-700 line-clamp-3">
+                    {event.description}
+                  </p>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </section>
+
+        {/* ================= BLOGS ================= */}
+        <section className="py-24 px-6 md:px-16 bg-white">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="max-w-7xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-[#04164B] mb-4">
-              Upcoming Events
+            <h2 className="text-4xl md:text-5xl font-bold text-[#04164B] text-center mb-14">
+              From Our Blog
             </h2>
-          </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
-            {branch.events?.map((event, i) => {
-              const variant = i % 3;
-              const accentColors = ["", "border-red-100", "border-teal-50"];
-
-              return (
-                <motion.article
-                  key={i}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.15, duration: 0.7 }}
-                  viewport={{ once: true }}
-                  className={`group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden cursor-pointer border ${accentColors[variant]} relative`}
-                >
-                  <div className="absolute top-3 left-3 bg-white text-[#04164B] font-bold px-3 py-1 rounded-full shadow-sm text-sm z-10">
-                    {i + 1}
-                  </div>
-
-                  {variant === 2 ? (
-                    <div className="flex flex-col h-full md:flex-row">
-                      <div className="md:w-1/2 relative overflow-hidden h-56 md:h-auto">
-                        <img
-                          src={urlFor(event.image).width(600).url()}
-                          alt={event.title}
-                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div className="absolute bottom-3 left-3 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                          {event.date}
-                        </div>
-                      </div>
-
-                      <div className="p-6 md:w-1/2 flex flex-col justify-between">
-                        <div>
-                          <h3 className="text-xl font-bold text-[#04164B] mb-2 group-hover:text-red-600 transition-colors">
-                            {event.title}
-                          </h3>
-                          <p className="text-gray-600 text-sm mb-3">
-                            📍 {event.location}
-                          </p>
-                          <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
-                            {event.description}
-                          </p>
-                        </div>
-
-                        <button className="mt-4 bg-[#04164B] text-white px-4 py-2 text-sm font-medium rounded-full hover:bg-red-600 transition-all self-start">
-                          View Details
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="relative overflow-hidden h-56">
-                        <img
-                          src={urlFor(event.image).width(600).url()}
-                          alt={event.title}
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div className="absolute bottom-3 left-3 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                          {event.date}
-                        </div>
-                      </div>
-
-                      <div className="p-6 flex flex-col justify-between h-[250px]">
-                        <div>
-                          <h3 className="text-xl font-bold text-[#04164B] mb-2 group-hover:text-red-600 transition-colors">
-                            {event.title}
-                          </h3>
-                          <p className="text-gray-600 text-sm mb-3">
-                            📍 {event.location}
-                          </p>
-                          <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
-                            {event.description}
-                          </p>
-                        </div>
-
-                        <button className="mt-4 bg-[#04164B] text-white px-4 py-2 text-sm font-medium rounded-full hover:bg-red-600 transition-all self-start">
-                          View Details
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </motion.article>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ================= FOOTER CTA ================= */}
-        <section className="py-12 px-6 bg-teal-800 text-white">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <h3 className="text-xl font-bold">
-                Visit {branch.name}
-              </h3>
-              <p className="mt-2 text-sm">
-                We'd love to meet you — come as you are.
+            {blogs === null ? (
+              <p className="text-center text-gray-400">Loading blog posts…</p>
+            ) : blogs.length === 0 ? (
+              <p className="text-center text-gray-500 italic">
+                No blog posts yet.
               </p>
-            </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {blogs.map((post, i) => (
+                  <motion.article
+                    key={i}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    viewport={{ once: true }}
+                    className="bg-gray-50 rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
+                  >
+                    {post.featuredImage && (
+                      <img
+                        src={urlFor(post.featuredImage).width(600).url()}
+                        alt={post.title}
+                        className="h-48 w-full object-cover"
+                      />
+                    )}
 
-            <div>
-              <a
-                href="/plan-visit"
-                className="bg-white text-teal-800 px-5 py-3 rounded-lg font-semibold"
-              >
-                Plan Your Visit
-              </a>
-            </div>
-          </div>
+                    <div className="p-6">
+                      <p className="text-xs text-gray-500 mb-2">
+                        {new Date(post.publishedAt).toLocaleDateString()}
+                      </p>
+
+                      <h3 className="text-xl font-bold text-[#04164B] mb-2">
+                        {post.title}
+                      </h3>
+
+                      <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+                        {post.excerpt}
+                      </p>
+
+                      <Link
+                        to={`/${branch.branchType === "assembly" ? "assemblies" : "fellowships"}/${slug}/blog/${post.slug}`}
+                        className="bg-[#04164B] text-white px-4 py-2 text-sm font-medium rounded-full hover:bg-red-600 hover:text-white transition-all self-start"
+                      >
+                        Read More →
+                      </Link>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            )}
+          </motion.div>
         </section>
       </div>
     </>

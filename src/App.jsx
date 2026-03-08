@@ -8,6 +8,8 @@ import NewsUpdates from "./pages/newsUpdates";
 import Dashboard from "./pages/dashboard";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import AboutUs from "./pages/aboutUs/index.jsx";
+import BranchBlogPost from "./pages/branchBlogPost/index.jsx";
+import BranchBlogList from "./pages/branchBlogList/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,12 @@ const router = createBrowserRouter([
 
       // ✅ Fellowships (dynamic)
       { path: "/fellowships/:slug", element: <BranchPage /> },
+
+      {path:"/assemblies/:slug/blog", element:<BranchBlogList />},
+      {path:"/assemblies/:slug/blog/:postSlug", element:<BranchBlogPost />},
+
+      {path:"/fellowships/:slug/blog", element:<BranchBlogList />},
+      {path:"/fellowships/:slug/blog/:postSlug", element:<BranchBlogPost />},
       { path: "/contact-us", element: <Contact /> },
       {
         path: "/reports-resources",
